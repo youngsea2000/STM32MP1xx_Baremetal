@@ -15,8 +15,7 @@ There is virtually no difference between these two methods in terms of programmi
 * **[(Planned) STM32MP157_M4_HelloWorld]()**: Starting the M4 core to run a simple UART demo.
 * **[(Planned) STM32MP157_A7_RTOS]()**: Running a multi-threaded application using the A7 core with RTOS.
 * **[(Planned) STM32MP157_XX_...]()**: Additional programs might be added as the project progresses.
-
-# STM32MP1xx_Baremetal
+---
 ## 简介
 该项目采用 STM32MP157DAAA1 进行裸机程序开发，理论上这个仓库中的所有程序适用于 STM32MP15XX 系列的所有单片机。建立本项目的初衷是为了脱离 u-boot 转而采用更精简的引导程序进行纯裸机程序运行，针对于这个 MPU 的启动方式，裸机程序可以通过以下几种条件进行启动：
 1. 将裸机程序作为 FSBL 程序运行，这种启动方式要求程序在 SYSRAM 中运行而不是 DDR。采用这种启动方式可以参考仓库中FSBLA文件夹的 bootloader 项目进行程序编写。
