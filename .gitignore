@@ -1,3 +1,7 @@
+#Visual Studio Code
+.vscode/
+.vscode-ctags
+
 # Build directory
 build/
 
