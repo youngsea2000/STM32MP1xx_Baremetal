@@ -1,0 +1,20 @@
+{
+    "files.associations": {
+        "list": "c",
+        "tuple": "c",
+        "compare": "c",
+        "features.h": "c",
+        "stddef.h": "c",
+        "stm32mp13xx_disco_io.h": "c",
+        "stm32mp1xx_atk.h": "c",
+        "stdio.h": "c",
+        "main.h": "c"
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/youngsea/STM32MP1/Projects/FSBLA/FSBLA_Sdmmc1/build",
+            "binaryPath": "/home/youngsea/STM32MP1/Projects/FSBLA/FSBLA_Sdmmc1/build/main.elf",
+            "binaryArgs": []
+        }
+    ],
+} 
