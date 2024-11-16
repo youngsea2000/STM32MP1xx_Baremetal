@@ -36,19 +36,17 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-Core/Src/main.c \
-Core/Src/stm32mp1xx_hal_msp.c \
-Core/Src/stm32mp1xx_it.c \
+Application/Src/main.c \
+Application/Src/stm32mp1xx_hal_msp.c \
+Application/Src/stm32mp1xx_it.c \
 Drivers/BSP/STM32MP1xx_ATK/stm32mp1xx_atk.c \
 Drivers/CMSIS/Core_A/Source/irq_ctrl_gic.c \
 Drivers/CMSIS/Device/ST/STM32MP1xx/Source/mmu_stm32mp1xx.c \
-Drivers/CMSIS/Device/ST/STM32MP1xx/Source/system_stm32mp1xx_A7.c\
+Drivers/CMSIS/Device/ST/STM32MP1xx/Source/system_stm32mp1xx_A7.c \
 Drivers/STM32MP1xx_HAL_Driver_EX/Src/stm32mp1xx_hal_ddr.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_dma_ex.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_dma.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_gpio.c \
-Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_i2c_ex.c \
-Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_i2c.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_pwr_ex.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_pwr.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_rcc_ex.c \
@@ -57,7 +55,7 @@ Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_sd_ex.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_sd.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal.c \
 Drivers/STM32MP1xx_HAL_Driver_EX/Src/stm32mp1xx_ll_sdmmc.c \
-Drivers/CMSIS/Device/ST/STM32MP1xx/Source/gcc/startup_stm32mp157daax.c \
+Drivers/CMSIS/Device/ST/STM32MP1xx/Source/gcc/startup_stm32mp157dxx_ca7.c \
 syscalls.c 
 
 # ASM sources
@@ -111,8 +109,6 @@ C_DEFS =  \
 -DSTM32MP157Dxx \
 -DGPT_TABLE_PRESENT \
 -DCORE_CA7 \
--DNO_CACHE_USE \
--DNO_MMU_USE \
 -DUSE_HAL_DRIVER \
 -DUSE_FULL_ASSERT \
 -DDDR_TYPE_DDR3_8Gb \
@@ -124,13 +120,12 @@ AS_INCLUDES =
 
 # C includes
 C_INCLUDES =  \
--ICore/Inc \
+-IApplication/Inc \
 -IDrivers/CMSIS/Core_A/Include \
 -IDrivers/CMSIS/Device/ST/STM32MP1xx/Include \
 -IDrivers/STM32MP1xx_HAL_Driver_EX/Inc \
 -IDrivers/STM32MP1xx_HAL_Driver/Inc \
--IDrivers/BSP/STM32MP1xx_ATK \
--IDrivers/BSP/Components/Common 
+-IDrivers/BSP/STM32MP1xx_ATK 
 
 
 # compile gcc flags
@@ -139,7 +134,7 @@ ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffuncti
 CFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
 ifeq ($(DEBUG), 1)
-CFLAGS += -g3 -gdwarf-2
+CFLAGS += -g -gdwarf-2
 endif
 
 

@@ -13,11 +13,11 @@
             ],
             "defines": [
                 "STM32MP157Dxx",
-                "GPT_TABLE_PRESENT",
                 "CORE_CA7",
                 "USE_HAL_DRIVER",
-                "USE_FULL_ASSERT",
-                "DDR_TYPE_DDR3_8Gb",
+                // "USE_FULL_ASSERT",
+                "USE_SECOND_A7_CORE",
+                // "DDR_TYPE_DDR3_8Gb",
                 "STM32MP1"
             ],
             "compilerPath": "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc",

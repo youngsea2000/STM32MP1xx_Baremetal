@@ -13,14 +13,14 @@
 ######################################
 # target
 ######################################
-TARGET = main
+TARGET = STM32MP157_Multicore
 
 
 ######################################
 # building variables
 ######################################
 # debug build?
-DEBUG = 0
+DEBUG ?= 0
 # optimization
 OPT = -Og
 
@@ -31,61 +31,34 @@ OPT = -Og
 # Build path
 BUILD_DIR = build
 
-#sdcard mount path
-UIMAGENAME ?= a7-main.uimg
-SDCARD_PATH ?= /Volumes/BAREAPP
-
 ######################################
 # source
 ######################################
 # C sources
 C_SOURCES =  \
-Core/Src/main.c \
-Core/Src/main1.c \
-Core/Src/gpio.c \
-Core/Src/usart.c \
-Core/Src/usb_otg.c \
-Core/Src/usbh_hs.c \
-Core/Src/irq_ctrl_gic.c \
-Core/Src/stm32mp1xx_it.c \
-Core/Src/stm32mp1xx_hal_msp.c \
-Core/Src/stm32mp1xx_hal_callback.c \
-Startup/startup_stm32mp157daax.c \
-Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal.c \
-Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_dma.c \
-Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_dma_ex.c \
-Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_exti.c \
+Application/Src/main0.c \
+Application/Src/main1.c \
+Application/Src/gpio.c \
+Application/Src/uart.c \
+Application/Src/stm32mp1xx_hal_msp.c \
+Application/Src/stm32mp1xx_it.c \
+Drivers/CMSIS/Core_A/Source/irq_ctrl_gic.c \
+Drivers/CMSIS/Device/ST/STM32MP1xx/Source/system_stm32mp1xx_A7.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_gpio.c \
-Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_mdma.c \
-Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_pwr.c \
-Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_pwr_ex.c \
-Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_rcc.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_rcc_ex.c \
-Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_uart.c \
+Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_rcc.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_uart_ex.c \
-Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_usart.c \
+Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_uart.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_usart_ex.c \
-Drivers/STM32MP1xx_HAL_Driver_EX/Src/stm32mp1xx_hal_hcd.c \
-Drivers/STM32MP1xx_HAL_Driver_EX/Src/stm32mp1xx_ll_usb.c \
-Core/Src/usbh_conf.c \
-Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_core.c \
-Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c \
-Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ioreq.c \
-Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_pipes.c \
-Middlewares/ST/STM32_USB_Host_Library/Class/VIDEO/Src/usbh_video.c \
-Middlewares/ST/STM32_USB_Host_Library/Class/VIDEO/Src/usbh_video_desc_parsing.c \
-Middlewares/ST/STM32_USB_Host_Library/Class/VIDEO/Src/usbh_video_stream_parsing.c \
-Core/Src/system_stm32mp1xx_A7.c\
-Core/Src/mmu_stm32mp1xx.c \
-Core/Src/sysmem.c 
-ifeq ($(DEBUG), 0)
-C_SOURCES += Core/Src/syscalls.c 
-endif
-# Core/Src/syscalls.c 
+Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_usart.c \
+Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal.c \
+Drivers/CMSIS/Device/ST/STM32MP1xx/Source/gcc/startup_stm32mp157dxx_ca7.c \
+syscalls.c 
+# Drivers/BSP/STM32MP1xx_ATK/stm32mp1xx_atk.c \
+# Drivers/CMSIS/Device/ST/STM32MP1xx/Source/mmu_stm32mp1xx.c \
 
 # ASM sources
-ASM_SOURCES = 
-
+ASM_SOURCES =  
 
 # ASM sources
 ASMM_SOURCES = 
@@ -117,17 +90,14 @@ BIN = $(CP) -O binary -S
 # cpu
 CPU = -mcpu=cortex-a7
 
-# architecture
-ARCH = -march=armv7ve
-
 # fpu
-FPU = -mfpu=neon-vfpv4
+FPU = -mfpu=vfpv4-d16
 
 # float-abi
 FLOAT-ABI = -mfloat-abi=hard
 
 # mcu
-MCU = $(CPU) $(ARCH) -mthumb $(FPU) -mlittle-endian $(FLOAT-ABI)
+MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 
 # macros for gcc
 # AS defines
@@ -135,11 +105,11 @@ AS_DEFS =
 
 # C defines
 C_DEFS =  \
--DUSE_HAL_DRIVER \
--DSTM32MP1 \
 -DSTM32MP157Dxx \
 -DCORE_CA7 \
--DUSE_SECOND_A7_CORE
+-DUSE_HAL_DRIVER \
+-DUSE_SECOND_A7_CORE \
+-DSTM32MP1 
 
 
 # AS includes
@@ -147,15 +117,12 @@ AS_INCLUDES =
 
 # C includes
 C_INCLUDES =  \
--ICore/Inc \
--IDrivers/STM32MP1xx_HAL_Driver/Inc \
--IDrivers/STM32MP1xx_HAL_Driver/Inc/Legacy \
--IDrivers/STM32MP1xx_HAL_Driver_EX/Inc \
--IMiddlewares/ST/STM32_USB_Host_Library/Core/Inc \
--IMiddlewares/ST/STM32_USB_Host_Library/Class/VIDEO/Inc \
--IDrivers/CMSIS/Device/ST/STM32MP1xx/Include \
+-IApplication/Inc \
 -IDrivers/CMSIS/Core_A/Include \
--IDrivers/CMSIS/Include
+-IDrivers/CMSIS/Device/ST/STM32MP1xx/Include \
+-IDrivers/STM32MP1xx_HAL_Driver_EX/Inc \
+-IDrivers/STM32MP1xx_HAL_Driver/Inc \
+-IDrivers/BSP/STM32MP1xx_ATK 
 
 
 # compile gcc flags
@@ -176,26 +143,15 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 # LDFLAGS
 #######################################
 # link script
-LDSCRIPT = STM32MP157DAAX_DDR.ld
+LDSCRIPT = Drivers/CMSIS/Device/ST/STM32MP1xx/Source/gcc/linker/stm32mp1xx_a7_ddr_multicore.ld 
 
 # libraries
-# LIBS = -lc -lm -lrdimon -lnosys 
-# LIBDIR = 
-# LDFLAGS = $(MCU) -specs=nano.specs -specs=rdimon.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
-LIBS = -lc -lm 
+LIBS = -lc -lm -lnosys 
 LIBDIR = 
-LDFLAGS = $(MCU) -specs=nano.specs 
-ifeq ($(DEBUG), 1)
-LIBS += -lrdimon
-LIBDIR += 
-LDFLAGS += -specs=rdimon.specs
-endif
-LIBS += -lnosys 
-LIBDIR += 
-LDFLAGS += -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
 # default action: build all
-all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin $(TARGET).stm32 $(UIMAGENAME)
+all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin $(TARGET).stm32
 
 
 #######################################
@@ -229,9 +185,9 @@ $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
 	$(BIN) $< $@	
 	
 %.stm32: $(BUILD_DIR)/%.bin
-	python3 Stm32ImageAddHeader.py $< $@ -hv 1.0 -ep c2000040 -la c2000040 -bt 01	
+	python3 Stm32ImageAddHeader.py $< $@ -hv 1.0 -ep c2000100 -la c2000000 -bt 01	
 	
-$(UIMAGENAME): $(BUILD_DIR)/$(TARGET).bin
+a7-main.uimg: $(BUILD_DIR)/$(TARGET).bin
 	$(info Creating uimg file)
 	python3 uimg_header.py $< $@
 	
@@ -242,8 +198,8 @@ $(BUILD_DIR):
 #######################################
 clean:
 	-rm -fR $(BUILD_DIR)
-	-rm -fR $(UIMAGENAME)
 	-rm -fR $(TARGET).stm32
+	-rm -fR a7-main.uimg
   
 #######################################
 # dependencies

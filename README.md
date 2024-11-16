@@ -9,8 +9,8 @@ This project involves bare-metal development on the STM32MP157DAAA1, and in theo
 There is virtually no difference between these two methods in terms of programming; only the RCC configuration and the address offsets in the linker script (ld file) need attention. The repository focuses mainly on the second method. The original purpose of creating this repository is for personal projects; therefore, the repository will include the following implementations as example programs:
 
 * **[(Completed) FSBLA_Sdmmc1]()**: Supports loading a bare-metal program from an SD card into DDR3L for execution.
-* **[(In Progress) STM32MP157_A7_Multi_Core]()**: Booting the A7 dual cores to run independent programs on each core.
-* **[(Planned) STM32MP157_A7_LVGL]()**: Running an LVGL GUI demo on a touchscreen using the A7 core.
+* **[(Completed) STM32MP157_A7_Multi_Core]()**: Booting the A7 dual cores to run independent programs on each core.
+* **[(In Progress) STM32MP157_A7_LVGL]()**: Running an LVGL GUI demo on a touchscreen using the A7 core.
 * **[(Planned) STM32MP157_A7_USB_Host]()**: Using the A7 core to drive a USB host for a UVC camera.
 * **[(Planned) STM32MP157_M4_HelloWorld]()**: Starting the M4 core to run a simple UART demo.
 * **[(Planned) STM32MP157_A7_RTOS]()**: Running a multi-threaded application using the A7 core with RTOS.
@@ -23,8 +23,8 @@ There is virtually no difference between these two methods in terms of programmi
 
 二者在程序编写的方法上几乎没有任何区别，只需要注意RCC配置以及链接过程中ld文件地址偏移即可。同时仓库以第二种启动方法为主，同时建立仓库的初衷是为了完成个人项目，因此仓库将陆续实现以下内容作为示例程序：
 * **[(已完成)FSBLA_Sdmmc1]()**: 支持从 SD 卡加载裸机程序到 DDR3L 中运行。
-* **[(创建中)STM32MP157_A7_Multi_Core]()**：启动A7双核分别运行独立程序。
-* **[(待实现)STM32MP157_A7_LVGL]()**：使用A7内核驱动触屏运行 LVGL GUI demo。
+* **[(已完成)STM32MP157_A7_Multi_Core]()**：启动A7双核分别运行独立程序。
+* **[(创建中)STM32MP157_A7_LVGL]()**：使用A7内核驱动触屏运行 LVGL GUI demo。
 * **[(待实现)STM32MP157_A7_USB_Host]()**：使用A7内核驱动 USB 主机驱动 UVC 摄像头。
 * **[(待实现)STM32MP157_M4_HelloWorld]()**：启动M4内核，运行简单的串口 demo。
 * **[(待实现)STM32MP157_A7_RTOS]()**：使用A7内核以及RTOS进行多线程操作。
