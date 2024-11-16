@@ -21,6 +21,8 @@
 #include "uart.h"
 
 /* USER CODE BEGIN 0 */
+#include <stdio.h>
+#include <stdarg.h>
 
 /* USER CODE END 0 */
 
@@ -144,6 +146,28 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 }
 
 /* USER CODE BEGIN 1 */
+volatile uint8_t uart_mutex = 0;
+
+void uart_print(const char *format, ...) {
+  va_list args;
+  uint32_t tickstart;
+
+  /* Wait */
+  tickstart = HAL_GetTick();
+  while (uart_mutex == 1) {
+    if ((HAL_GetTick() - tickstart) > 1000)
+    {
+      return;
+    }
+  }
+
+  uart_mutex = 1;
+  va_start(args, format);
+  vprintf(format, args);
+  va_end(args);
+  uart_mutex = 0;
+}
+
 //PUTCHAR_PROTOTYPE {
 //  HAL_UART_Transmit(&huart4, (uint8_t *)&ch, 1, 0xFFFF);
 //  return ch;

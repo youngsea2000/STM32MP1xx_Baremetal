@@ -45,6 +45,8 @@ Application/Src/stm32mp1xx_it.c \
 Drivers/CMSIS/Core_A/Source/irq_ctrl_gic.c \
 Drivers/CMSIS/Device/ST/STM32MP1xx/Source/system_stm32mp1xx_A7.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_gpio.c \
+Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_pwr_ex.c \
+Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_pwr.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_rcc_ex.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_rcc.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_uart_ex.c \

@@ -41,6 +41,7 @@ extern UART_HandleTypeDef huart4;
 void MX_UART4_Init(void);
 
 /* USER CODE BEGIN Prototypes */
+void uart_print(const char *format, ...);
 
 /* USER CODE END Prototypes */
 

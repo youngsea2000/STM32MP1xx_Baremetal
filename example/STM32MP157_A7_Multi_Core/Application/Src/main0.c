@@ -51,7 +51,7 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void start_core1(void);
+HAL_StatusTypeDef start_cpu1(void);
 
 /* USER CODE END PFP */
 
@@ -95,8 +95,14 @@ int main(void)
   printf("MPU_CLK: %ldMHz\r\n", HAL_RCC_GetMPUSSFreq());
   printf("AXI_CLK: %ldMHz\r\n", HAL_RCC_GetAXISSFreq());
   printf("MCU_CLK: %ldMHz\r\n", HAL_RCC_GetMCUSSFreq());
-  printf("Start up core1\r\n");
-  start_core1();
+
+  uart_print("Start up core1\r\n");
+  if(start_cpu1()!=HAL_OK)
+  {
+    uart_print("fail start core1\r\n");
+  } else {
+    uart_print("success start core1\r\n");
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */

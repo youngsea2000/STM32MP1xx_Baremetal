@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+[ "$#" -eq 2 ] || [ "$#" -eq 1 ] || {
+    echo ""
+	echo "Error args!!!" >&2;
+}
+
+if [ ! -b $1 ]; then
+	echo "Device $1 does not exist";
+	exit 1;
+fi
+
+if [ "$#" -eq 1 ]; then
+    echo "Device $1 found, removing partitions"
+
+    echo "sudo sgdisk -Z $1"
+    sudo sgdisk -g $1  || exit
+
+    echo "sudo sgdisk -o $1"
+    sudo sgdisk -o $1 || exit
+
+    echo ""
+    echo "Partitioning..."
+    echo "sudo sgdisk --resize-table=4 -a 1 -n 1:3:20482 -c 1:ssbl -p $1"
+    sudo sgdisk --resize-table=4 -a 1 -n 1:3:20482 -c 1:ssbl -p $1
+
+    echo ""
+    case "$(uname -s)" in
+        Linux)
+            echo "sudo mkfs.fat -F 32 ${1}4"
+            sudo mkfs.fat -F 32 ${1}4
+            sleep 3
+            sudo umount $1
+            ;;
+        *)
+            echo 'OS not supported'
+            ;;
+    esac
+
+else
+	path=$2
+    echo "Copying bootloader files..."
+
+    case "$(uname -s)" in
+        Linux)
+            echo "sudo dd if=$path of=${1}"
+            sudo dd if=$path of=${1}
+            sleep 1
+            sudo umount $1
+            ;;
+        *)
+            echo 'OS not supported'
+            ;;
+    esac
+
+fi
+
+echo "Done!"

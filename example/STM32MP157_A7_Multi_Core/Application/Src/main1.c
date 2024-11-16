@@ -19,8 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "gpio.h"
-enum { MagicNumberValue = 0xCA7FACE1 };
-void Reset_Handler_cpu1(void);
+#include "uart.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -50,6 +49,7 @@ void Reset_Handler_cpu1(void);
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
+void Reset_Handler_cpu1(void);
 
 /* USER CODE END PFP */
 
@@ -84,7 +84,7 @@ int main_cpu1(void)
 
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-  printf("\r\nHello from Core1!\r\n");
+  uart_print("\r\nHello from Core1!\r\n");
 
   /* USER CODE END 2 */
 
@@ -107,23 +107,38 @@ int main_cpu1(void)
 
 /* USER CODE END 4 */
 #ifdef USE_SECOND_A7_CORE
-void start_core1(void)
+HAL_StatusTypeDef start_cpu1(void)
 {
+  uint32_t tickstart;
+  HAL_StatusTypeDef ret = HAL_OK;      /* Intermediate status */
+
+  /* Enable corresponding interrupt */
   IRQ_Enable(SGI0_IRQn);
-  // Turn on the Disable Backup Protection bit, to allow us to write to
-  // the TAMP backup registers This is already on if we just booted from
-  // U-boot, but if we are debugging and manually reset the code, we'll
-  // want to be sure.
-  PWR->CR1 = PWR->CR1 | PWR_CR1_DBP;
-  while (!(PWR->CR1 & PWR_CR1_DBP)){};
-  // Turn off Write protection on backup registers (BOOTROM seems to turn
-  // it on for Backup registers 0-4 during MPU1 boot-up)
-  TAMP->SMCR = (0 << TAMP_SMCR_BKPRWDPROT_Pos) | (0 << TAMP_SMCR_BKPWDPROT_Pos) | (1 << TAMP_SMCR_TAMPDPROT_Pos);
-  uint32_t core1_start_addr = (uint32_t)(&Reset_Handler_cpu1);
-  TAMP->BKP5R = core1_start_addr;
-  TAMP->BKP4R = MagicNumberValue;
-  const uint32_t filter_use_cpu_sel_bits = 0b00;
-  const uint32_t cpu1 = 1 << 1;
-  GIC_SendSGI(SGI0_IRQn, cpu1, filter_use_cpu_sel_bits);
+  
+  /* Enable write access to Backup domain */
+  SET_BIT(PWR->CR1, PWR_CR1_DBP);
+
+  /* Wait for Backup domain Write protection disable */
+  tickstart = HAL_GetTick();
+
+  while ((PWR->CR1 & PWR_CR1_DBP) == RESET)
+  {
+    if ((HAL_GetTick() - tickstart) > DBP_TIMEOUT_VALUE)
+    {
+      ret = HAL_TIMEOUT;
+    }
+  }
+
+  if (ret == HAL_OK)
+  {
+    WRITE_REG(TAMP->SMCR, TAMP_SMCR_TAMPDPROT);
+    WRITE_REG(TAMP->BKP5R, (uint32_t)(&Reset_Handler_cpu1));
+    WRITE_REG(TAMP->BKP4R, 0xCA7FACE1);
+    GIC_SendSGI(SGI0_IRQn, 2, 0);
+  }
+
+  return ret;
 }
+
+
 #endif
