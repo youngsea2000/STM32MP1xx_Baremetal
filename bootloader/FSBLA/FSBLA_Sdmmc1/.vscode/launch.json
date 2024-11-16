@@ -1,0 +1,41 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/FSBLA_Sdmmc1.elf",
+            "name": "Debug with OpenOCD",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/jlink.cfg",
+                "target/stm32mp15x.cfg",
+            ],
+            "serverArgs": [],
+            "searchDir":  ["/usr/share/openocd/scripts"],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
+
+            "serverpath": "openocd",
+            "svdFile": "STM32MP15xxx.svd",
+            "numberOfProcessors": 1,
+            "targetProcessor": 0,
+            "preLaunchCommands": [
+                // Refer to this thread: https://community.st.com/s/question/0D50X0000AhOC9DSQW/stm32mp157cdk2-uboot-spl-debug-timeout    
+                "set arm abi AAPCS",
+                "set output-radix 16", // Display in hex format
+                "monitor arm semihosting enable",
+            ],
+            "postLaunchCommands": [
+                "monitor cortex_a smp off",
+                "monitor cortex_a smp_gdb 0",
+                "load"                                   
+            ],
+            "preLaunchTask": "Build for Debug"
+        },
+    ]
+}

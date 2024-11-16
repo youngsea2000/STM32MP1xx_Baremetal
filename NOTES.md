@@ -1,0 +1,1 @@
+1. STM32MP1xx_HAL_Driver_EX中的文件来自于CubeMP13,模块的内容以及stm32mp157dxx_ca7.h(38487:38794)中的ETZPC的所有内容没有与STM32的寄存器做完整对照，如果后续出问题将会开展这个工作
