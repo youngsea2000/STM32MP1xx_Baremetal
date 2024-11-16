@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        {
+            "name": "Linux ARM",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/Application/Inc",
+                "${workspaceFolder}/Drivers/CMSIS/Core_A/Include",
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32MP1xx/Include",
+                "${workspaceFolder}/Drivers/STM32MP1xx_HAL_Driver_EX/Inc",
+                "${workspaceFolder}/Drivers/STM32MP1xx_HAL_Driver/Inc",
+                "${workspaceFolder}/Drivers/BSP/Components/ek79001",
+                "${workspaceFolder}/Drivers/BSP/STM32MP1xx_ATK"
+            ],
+            "defines": [
+                "USE_DDR",
+                "STM32MP157Dxx",
+                "CORE_CA7",
+                "USE_HAL_DRIVER",
+                "USE_SECOND_A7_CORE",
+                "STM32MP1"
+            ],
+            "compilerPath": "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "gcc-arm",
+            "configurationProvider": "ms-vscode.makefile-tools"
+        }
+    ],
+    "version": 4
+}
