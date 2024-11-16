@@ -41,14 +41,18 @@ Application/Src/main1.c \
 Application/Src/stm32mp1xx_hal_msp.c \
 Application/Src/stm32mp1xx_it.c \
 Drivers/BSP/STM32MP1xx_ATK/stm32mp1xx_atk.c \
+Drivers/BSP/STM32MP1xx_ATK/stm32mp1xx_atk_lcd.c \
 Drivers/CMSIS/Core_A/Source/irq_ctrl_gic.c \
 Drivers/CMSIS/Device/ST/STM32MP1xx/Source/mmu_stm32mp1xx.c \
 Drivers/CMSIS/Device/ST/STM32MP1xx/Source/system_stm32mp1xx_A7.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_gpio.c \
+Drivers/STM32MP1xx_HAL_Driver_EX/Src/stm32mp1xx_hal_ltdc_ex.c \
+Drivers/STM32MP1xx_HAL_Driver_EX/Src/stm32mp1xx_hal_ltdc.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_pwr_ex.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_pwr.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_rcc_ex.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_rcc.c \
+Drivers/STM32MP1xx_HAL_Driver_EX/Src/stm32mp1xx_hal_dsi.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_uart_ex.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_uart.c \
 Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_usart_ex.c \
@@ -105,6 +109,7 @@ AS_DEFS =
 
 # C defines
 C_DEFS =  \
+-DUSE_DDR \
 -DSTM32MP157Dxx \
 -DCORE_CA7 \
 -DUSE_HAL_DRIVER \
@@ -125,6 +130,7 @@ C_INCLUDES =  \
 -IDrivers/CMSIS/Device/ST/STM32MP1xx/Include \
 -IDrivers/STM32MP1xx_HAL_Driver_EX/Inc \
 -IDrivers/STM32MP1xx_HAL_Driver/Inc \
+-IDrivers/BSP/Components/ek79001 \
 -IDrivers/BSP/STM32MP1xx_ATK 
 
 

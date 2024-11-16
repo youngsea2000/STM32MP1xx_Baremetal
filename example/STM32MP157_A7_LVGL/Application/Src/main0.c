@@ -22,6 +22,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include <stdlib.h>
 
 /* USER CODE END Includes */
 
@@ -43,7 +44,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-__IO uint8_t log_lock = 0;
+uint8_t *LCD_Frame1_Addr;
 
 /* USER CODE END PV */
 
@@ -51,6 +52,7 @@ __IO uint8_t log_lock = 0;
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 HAL_StatusTypeDef start_cpu1(void);
+static void LCD_Config(void);
 
 /* USER CODE END PFP */
 
@@ -67,7 +69,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-  // uint16_t cnt = 0;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -99,21 +101,18 @@ int main(void)
   };
   BSP_COM_Init(COM1, &COM_Init[COM1]);
 
-  if(wait_lock(&log_lock))
+  printf("youngsea Ver:0.0.0\r\n");
+  printf("\r\nHello from core0!\r\n");
+  printf("MPU_CLK: %ldMHz\r\n", HAL_RCC_GetMPUSSFreq());
+  printf("AXI_CLK: %ldMHz\r\n", HAL_RCC_GetAXISSFreq());
+  printf("MCU_CLK: %ldMHz\r\n", HAL_RCC_GetMCUSSFreq());
+  LCD_Config();
+  printf("Start up core1\r\n");
+  if(start_cpu1()!=HAL_OK)
   {
-    set_lock(&log_lock);
-    printf("\r\nHello from core0!\r\n");
-    printf("MPU_CLK: %ldMHz\r\n", HAL_RCC_GetMPUSSFreq());
-    printf("AXI_CLK: %ldMHz\r\n", HAL_RCC_GetAXISSFreq());
-    printf("MCU_CLK: %ldMHz\r\n", HAL_RCC_GetMCUSSFreq());
-    printf("Start up core1\r\n");
-    if(start_cpu1()!=HAL_OK)
-    {
-      printf("fail start core1\r\n");
-    } else {
-      printf("success start core1\r\n");
-    }
-    clr_lock(&log_lock);
+    printf("fail start core1\r\n");
+  } else {
+    printf("success start core1\r\n");
   }
   /* USER CODE END 2 */
 
@@ -121,6 +120,24 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    BSP_LCD_FillRect(0,0,0,EK79001_WIDTH,EK79001_HEIGHT,LCD_COLOR_WHITE);
+    BSP_LCD_Reload(0,LCD_RELOAD_IMMEDIATE);
+    HAL_Delay(1000);
+    BSP_LED_Toggle(LED_RED);
+    BSP_LCD_FillRect(0,0,0,EK79001_WIDTH,EK79001_HEIGHT,LCD_COLOR_BLACK);
+    BSP_LCD_Reload(0,LCD_RELOAD_IMMEDIATE);
+    HAL_Delay(1000);
+    BSP_LED_Toggle(LED_RED);
+    BSP_LCD_FillRect(0,0,0,EK79001_WIDTH,EK79001_HEIGHT,LCD_COLOR_RED);
+    BSP_LCD_Reload(0,LCD_RELOAD_IMMEDIATE);
+    HAL_Delay(1000);
+    BSP_LED_Toggle(LED_RED);
+    BSP_LCD_FillRect(0,0,0,EK79001_WIDTH,EK79001_HEIGHT,LCD_COLOR_GREEN);
+    BSP_LCD_Reload(0,LCD_RELOAD_IMMEDIATE);
+    HAL_Delay(1000);
+    BSP_LED_Toggle(LED_RED);
+    BSP_LCD_FillRect(0,0,0,EK79001_WIDTH,EK79001_HEIGHT,LCD_COLOR_BLUE);
+    BSP_LCD_Reload(0,LCD_RELOAD_IMMEDIATE);
     HAL_Delay(1000);
     BSP_LED_Toggle(LED_RED);
     /* USER CODE END WHILE */
@@ -134,120 +151,214 @@ int main(void)
   * @brief System Clock Configuration
   * @retval None
   */
-void SystemClock_Config(void)
+ void SystemClock_Config(void)
 {
-  // RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  // RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PLLInitTypeDef RCC_PLLInitStructure;
 
-  // RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_MPU | RCC_CLOCKTYPE_ACLK | RCC_CLOCKTYPE_HCLK /* <-- MCU Clock */ |
-  //      RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 | RCC_CLOCKTYPE_PCLK3 | RCC_CLOCKTYPE_PCLK4 |
-  //      RCC_CLOCKTYPE_PCLK5;
-  // RCC_ClkInitStruct.MPUInit.MPU_Clock = RCC_MPUSOURCE_HSI;
-  // RCC_ClkInitStruct.MPUInit.MPU_Div = RCC_MPU_DIV2;
-  // RCC_ClkInitStruct.AXISSInit.AXI_Clock = RCC_AXISSOURCE_HSI;
-  // RCC_ClkInitStruct.AXISSInit.AXI_Div = RCC_AXI_DIV1;
-  // RCC_ClkInitStruct.MCUInit.MCU_Clock = RCC_MCUSSOURCE_HSI;
-  // RCC_ClkInitStruct.MCUInit.MCU_Div = RCC_MCU_DIV1;
-  // RCC_ClkInitStruct.APB4_Div = RCC_APB4_DIV2;
-  // RCC_ClkInitStruct.APB5_Div = RCC_APB5_DIV4;
-  // RCC_ClkInitStruct.APB1_Div = RCC_APB1_DIV2;
-  // RCC_ClkInitStruct.APB2_Div = RCC_APB2_DIV2;
-  // RCC_ClkInitStruct.APB3_Div = RCC_APB3_DIV2;
-  // if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct) != HAL_OK)
-  // {
-  //   Error_Handler();
-  // }
+  __HAL_RCC_SDMMC1_CLK_DISABLE();
 
-  // /** Configure LSE Drive Capability
-  // */
-  // HAL_PWR_EnableBkUpAccess();
-  // __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_MEDIUMHIGH);
+  RCC_PLLInitStructure.PLLState = RCC_PLL_ON;
+  RCC_PLLInitStructure.PLLSource = RCC_PLL4SOURCE_HSE;
+  RCC_PLLInitStructure.PLLM = 2;
+  RCC_PLLInitStructure.PLLN = 50;
+  RCC_PLLInitStructure.PLLP = 3;
+  RCC_PLLInitStructure.PLLQ = 7;
+  RCC_PLLInitStructure.PLLR = 2;
+  RCC_PLLInitStructure.PLLRGE = RCC_PLL4IFRANGE_1;
+  RCC_PLLInitStructure.PLLFRACV = 0;
+  RCC_PLLInitStructure.PLLMODE = RCC_PLL_INTEGER;
+  
+  if (RCCEx_PLL4_Config(&RCC_PLLInitStructure) != HAL_OK) {
+    /* HAL RCC configuration error */
+    Error_Handler();
+    }
 
-  // /** Initializes the RCC Oscillators according to the specified parameters
-  // * in the RCC_OscInitTypeDef structure.
-  // */
-  // RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
-  // RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  // RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-  // RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  // RCC_OscInitStruct.PLL.PLLSource = RCC_PLL12SOURCE_HSE;
-  // RCC_OscInitStruct.PLL.PLLM = 3;
-  // RCC_OscInitStruct.PLL.PLLN = 100;
-  // RCC_OscInitStruct.PLL.PLLP = 1;
-  // RCC_OscInitStruct.PLL.PLLQ = 2;
-  // RCC_OscInitStruct.PLL.PLLR = 2;
-  // RCC_OscInitStruct.PLL.PLLFRACV = 0;
-  // RCC_OscInitStruct.PLL.PLLMODE = RCC_PLL_INTEGER;
-  // RCC_OscInitStruct.PLL2.PLLState = RCC_PLL_NONE;
-  // RCC_OscInitStruct.PLL2.PLLSource = RCC_PLL12SOURCE_HSE;
-  // RCC_OscInitStruct.PLL2.PLLM = 3;
-  // RCC_OscInitStruct.PLL2.PLLN = 66;
-  // RCC_OscInitStruct.PLL2.PLLP = 2;
-  // RCC_OscInitStruct.PLL2.PLLQ = 1;
-  // RCC_OscInitStruct.PLL2.PLLR = 1;
-  // RCC_OscInitStruct.PLL2.PLLFRACV = 5120;
-  // RCC_OscInitStruct.PLL2.PLLMODE = RCC_PLL_FRACTIONAL;
-  // RCC_OscInitStruct.PLL3.PLLState = RCC_PLL_ON;
-  // RCC_OscInitStruct.PLL3.PLLSource = RCC_PLL3SOURCE_HSE;
-  // RCC_OscInitStruct.PLL3.PLLM = 2;
-  // RCC_OscInitStruct.PLL3.PLLN = 52;
-  // RCC_OscInitStruct.PLL3.PLLP = 3;
-  // RCC_OscInitStruct.PLL3.PLLQ = 17;
-  // RCC_OscInitStruct.PLL3.PLLR = 37;
-  // RCC_OscInitStruct.PLL3.PLLRGE = RCC_PLL3IFRANGE_1;
-  // RCC_OscInitStruct.PLL3.PLLFRACV = 2048;
-  // RCC_OscInitStruct.PLL3.PLLMODE = RCC_PLL_FRACTIONAL;
-  // RCC_OscInitStruct.PLL4.PLLState = RCC_PLL_ON;
-  // RCC_OscInitStruct.PLL4.PLLSource = RCC_PLL4SOURCE_HSE;
-  // RCC_OscInitStruct.PLL4.PLLM = 4;
-  // RCC_OscInitStruct.PLL4.PLLN = 9;
-  // RCC_OscInitStruct.PLL4.PLLP = 6;
-  // RCC_OscInitStruct.PLL4.PLLQ = 8;
-  // RCC_OscInitStruct.PLL4.PLLR = 8;
-  // RCC_OscInitStruct.PLL4.PLLRGE = RCC_PLL4IFRANGE_0;
-  // RCC_OscInitStruct.PLL4.PLLFRACV = 0x1000;
-  // RCC_OscInitStruct.PLL4.PLLMODE = RCC_PLL_INTEGER;
-  // if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  // {
-  //   Error_Handler();
-  // }
+#if !defined(USE_DDR)
+  HAL_RCC_DeInit();
+  RCC_ClkInitTypeDef RCC_ClkInitStructure;
+  RCC_OscInitTypeDef RCC_OscInitStructure;
 
-  // /** Set the HSE division factor for RTC clock
-  // */
-  // __HAL_RCC_RTC_HSEDIV(1);
+  /* Enable all available oscillators*/
+  RCC_OscInitStructure.OscillatorType = (RCC_OSCILLATORTYPE_HSI |
+                                         RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_CSI |
+                                         RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE);
 
-  // RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_MPU | RCC_CLOCKTYPE_ACLK | RCC_CLOCKTYPE_HCLK /* <-- MCU Clock */ |
-  //      RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 | RCC_CLOCKTYPE_PCLK3 | RCC_CLOCKTYPE_PCLK4 |
-  //      RCC_CLOCKTYPE_PCLK5;
-  // RCC_ClkInitStruct.MPUInit.MPU_Clock = RCC_MPUSOURCE_PLL1;
-  // RCC_ClkInitStruct.AXISSInit.AXI_Clock = RCC_AXISSOURCE_PLL2;
-  // RCC_ClkInitStruct.MCUInit.MCU_Clock = RCC_MCUSSOURCE_PLL3;
-  // if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct) != HAL_OK)
-  // {
-  //   Error_Handler();
-  // }
+  RCC_OscInitStructure.HSIState = RCC_HSI_ON;
+  RCC_OscInitStructure.HSEState = RCC_HSE_ON;
+  RCC_OscInitStructure.LSEState = RCC_LSE_ON;
+  RCC_OscInitStructure.LSIState = RCC_LSI_ON;
+  RCC_OscInitStructure.CSIState = RCC_CSI_ON;
+
+  RCC_OscInitStructure.HSICalibrationValue = 0x00; //Default reset value
+  RCC_OscInitStructure.CSICalibrationValue = 0x10; //Default reset value
+  RCC_OscInitStructure.HSIDivValue = RCC_HSI_DIV1; //Default value
+
+  /* PLL configuration */
+  RCC_OscInitStructure.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStructure.PLL.PLLSource = RCC_PLL12SOURCE_HSE;
+  RCC_OscInitStructure.PLL.PLLM = 3;
+  RCC_OscInitStructure.PLL.PLLN = 100;
+  RCC_OscInitStructure.PLL.PLLP = 1;
+  RCC_OscInitStructure.PLL.PLLQ = 2;
+  RCC_OscInitStructure.PLL.PLLR = 2;
+  RCC_OscInitStructure.PLL.PLLFRACV = 0;
+  RCC_OscInitStructure.PLL.PLLMODE = RCC_PLL_INTEGER;
+
+  RCC_OscInitStructure.PLL2.PLLState = RCC_PLL_ON;
+  RCC_OscInitStructure.PLL2.PLLSource = RCC_PLL12SOURCE_HSE;
+  RCC_OscInitStructure.PLL2.PLLM = 3;
+  RCC_OscInitStructure.PLL2.PLLN = 66;
+  RCC_OscInitStructure.PLL2.PLLP = 2;
+  RCC_OscInitStructure.PLL2.PLLQ = 2;
+  RCC_OscInitStructure.PLL2.PLLR = 1;
+  RCC_OscInitStructure.PLL2.PLLFRACV = 0x1400;
+  RCC_OscInitStructure.PLL2.PLLMODE = RCC_PLL_FRACTIONAL;
+
+  RCC_OscInitStructure.PLL3.PLLState = RCC_PLL_ON;
+  RCC_OscInitStructure.PLL3.PLLSource = RCC_PLL3SOURCE_HSE;
+  RCC_OscInitStructure.PLL3.PLLM = 2;
+  RCC_OscInitStructure.PLL3.PLLN = 52;
+  RCC_OscInitStructure.PLL3.PLLP = 3;
+  RCC_OscInitStructure.PLL3.PLLQ = 2;
+  RCC_OscInitStructure.PLL3.PLLR = 2;
+  RCC_OscInitStructure.PLL3.PLLRGE = RCC_PLL3IFRANGE_1;
+  RCC_OscInitStructure.PLL3.PLLFRACV = 0x0800;
+  RCC_OscInitStructure.PLL3.PLLMODE = RCC_PLL_FRACTIONAL;
+
+  RCC_OscInitStructure.PLL4.PLLState = RCC_PLL_ON;
+  RCC_OscInitStructure.PLL4.PLLSource = RCC_PLL4SOURCE_HSE;
+  RCC_OscInitStructure.PLL4.PLLM = 2;
+  RCC_OscInitStructure.PLL4.PLLN = 50;
+  RCC_OscInitStructure.PLL4.PLLP = 3;
+  RCC_OscInitStructure.PLL4.PLLQ = 1;
+  RCC_OscInitStructure.PLL4.PLLR = 1;
+  RCC_OscInitStructure.PLL4.PLLRGE = RCC_PLL4IFRANGE_1;
+  RCC_OscInitStructure.PLL4.PLLFRACV = 0;
+  RCC_OscInitStructure.PLL4.PLLMODE = RCC_PLL_INTEGER;
+
+  /* Enable access to RTC and backup registers */
+  SET_BIT(PWR->CR1, PWR_CR1_DBP);
+  /* Configure LSEDRIVE value */
+  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_MEDIUMHIGH);
+
+  if (HAL_RCC_OscConfig(&RCC_OscInitStructure) != HAL_OK) {
+    /* HAL RCC configuration error */
+    Error_Handler();
+    }
+
+  /* Select PLLx as MPU, AXI and MCU clock sources */
+  RCC_ClkInitStructure.ClockType = (RCC_CLOCKTYPE_MPU   | RCC_CLOCKTYPE_ACLK  |
+                                    RCC_CLOCKTYPE_HCLK  | RCC_CLOCKTYPE_PCLK4 |
+                                    RCC_CLOCKTYPE_PCLK5 | RCC_CLOCKTYPE_PCLK1 |
+                                    RCC_CLOCKTYPE_PCLK2 | RCC_CLOCKTYPE_PCLK3);
+
+  RCC_ClkInitStructure.MPUInit.MPU_Clock = RCC_MPUSOURCE_PLL1;
+  RCC_ClkInitStructure.MPUInit.MPU_Div = RCC_MPU_DIV2;
+  RCC_ClkInitStructure.AXISSInit.AXI_Clock = RCC_AXISSOURCE_PLL2;
+  RCC_ClkInitStructure.AXISSInit.AXI_Div = RCC_AXI_DIV1;
+  RCC_ClkInitStructure.MCUInit.MCU_Clock = RCC_MCUSSOURCE_PLL3;
+  RCC_ClkInitStructure.MCUInit.MCU_Div = RCC_MCU_DIV1;
+  RCC_ClkInitStructure.APB1_Div = RCC_APB1_DIV2;
+  RCC_ClkInitStructure.APB2_Div = RCC_APB2_DIV2;
+  RCC_ClkInitStructure.APB3_Div = RCC_APB3_DIV2;
+  RCC_ClkInitStructure.APB4_Div = RCC_APB4_DIV2;
+  RCC_ClkInitStructure.APB5_Div = RCC_APB5_DIV4;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStructure) != HAL_OK) {
+    /* HAL RCC configuration error */
+    Error_Handler();
+    }
+
+/*
+  Note : The activation of the I/O Compensation Cell is recommended with communication  interfaces
+  (GPIO, SPI, FMC, XSPI ...)  when  operating at  high frequencies(please refer to product datasheet)
+  The I/O Compensation Cell activation  procedure requires :
+  - The activation of the CSI clock
+  - The activation of the SYSCFG clock
+  - Enabling the I/O Compensation Cell : setting bit[0] of register SYSCFG_CCCSR
+
+  To do this please uncomment the following code
+  */
+
+  /*
+  __HAL_RCC_CSI_ENABLE() ;
+
+  __HAL_RCC_SYSCFG_CLK_ENABLE() ;
+
+  HAL_EnableCompensationCell();
+*/
+#endif
 }
 
 /* USER CODE BEGIN 4 */
-void set_lock(__IO uint8_t *lock)
+
+/**
+  * @brief  Error callback.
+  * @param  hltdc: pointer to a LTDC_HandleTypeDef structure that contains
+  *                the configuration information for the LTDC.
+  * @retval None
+  */
+void HAL_LTDC_ErrorCallback(LTDC_HandleTypeDef *hltdc)
 {
-  *lock = 1;
+  Error_Handler();
 }
-void clr_lock(__IO uint8_t *lock)
+
+/**
+  * @brief  Reload Event callback.
+  * @param  hltdc: pointer to a LTDC_HandleTypeDef structure that contains
+  *                the configuration information for the LTDC.
+  * @retval None
+  */
+void HAL_LTDC_ReloadEventCallback(LTDC_HandleTypeDef *hltdc)
 {
-  *lock = 0;
+  // ReloadFlag = 1;
 }
-uint8_t wait_lock(__IO uint8_t *lock)
+
+/**
+  * @brief LCD Configuration.
+  * @note  This function Configures the LTDC peripheral :
+  *        1) DeInit LCD
+  *        2) Init LCD
+  *        3) Configure the LTDC Layer 1 :
+  *           - color RGB888 as pixel format
+  *           - The frame buffer is located at DDR memory
+  *           - The Layer size configuration : 320x240
+  *        4) Configure the LTDC Layer 2 :
+  *           - color RGB888 as pixel format
+  *           - The frame buffer is located at DDR memory
+  *           - The Layer size configuration : 320x240
+  *        5) Enable Display On
+  * @retval
+  *  None
+  */
+static void LCD_Config(void)
 {
-  uint32_t tickstart;
-  tickstart = HAL_GetTick();
-  while (*lock == 1) {
-    if ((HAL_GetTick() - tickstart) > 1000)
-    {
-      return 1;
+  /* LTDC Initialization -------------------------------------------------------*/
+  BSP_LCD_DeInit(0);
+  if(BSP_LCD_Get_ID(0)==2)
+  {
+    BSP_LCD_Init(0);
+    LCD_Frame1_Addr = malloc(EK79001_WIDTH*EK79001_HEIGHT*3*2);
+    printf("start malloc\r\n");
+    if(LCD_Frame1_Addr==NULL){
+      printf("error of malloc\r\n");
+      return;
     }
+    // HAL_Delay(1000);
+    printf("end malloc\r\n");
+    BSP_LCD_LayerDefaultInit(0,LTDC_LAYER_1, (uint32_t)LCD_Frame1_Addr);
+    printf("end init\r\n");
+
+  }else{
+    printf("LCD Init Fail:%d\r\n",BSP_LCD_Get_ID(0));
+    return;
   }
-  return 0;
+
+  /* Disable the FIFO underrun interrupt */
+  __HAL_LTDC_DISABLE_IT(&hLtdcHandler, LTDC_IT_FU);
+
+  /* Enable Display On */
+  BSP_LCD_DisplayOn(0);
 }
 
 /**

@@ -6,12 +6,13 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.
+  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */ 
@@ -31,43 +32,39 @@
 /**
   * @brief This is the list of modules to be used in the HAL driver 
   */
-// #define HAL_MODULE_ENABLED
-// #define HAL_ADC_MODULE_ENABLED
-// #define HAL_CEC_MODULE_ENABLED
-// #define HAL_CORTEX_MODULE_ENABLED
-// #define HAL_CRC_MODULE_ENABLED
-// #define HAL_CRYP_MODULE_ENABLED
-// #define HAL_DAC_MODULE_ENABLED
-// #define HAL_DCMI_MODULE_ENABLED
-// #define HAL_DFSDM_MODULE_ENABLED
+#define HAL_MODULE_ENABLED
+#define HAL_ADC_MODULE_ENABLED
+#define HAL_CEC_MODULE_ENABLED
+#define HAL_CORTEX_MODULE_ENABLED
+#define HAL_CRC_MODULE_ENABLED
+#define HAL_CRYP_MODULE_ENABLED
+#define HAL_DAC_MODULE_ENABLED
+#define HAL_DCMI_MODULE_ENABLED
+#define HAL_DFSDM_MODULE_ENABLED
 #define HAL_DMA_MODULE_ENABLED
-#define HAL_DSI_MODULE_ENABLED
-// #define HAL_EXTI_MODULE_ENABLED
-// #define HAL_FDCAN_MODULE_ENABLED
+#define HAL_EXTI_MODULE_ENABLED
+#define HAL_FDCAN_MODULE_ENABLED
 #define HAL_GPIO_MODULE_ENABLED
-// #define HAL_HASH_MODULE_ENABLED
-// #define HAL_HSEM_MODULE_ENABLED
-// #define HAL_I2C_MODULE_ENABLED
-// #define HAL_IPCC_MODULE_ENABLED
-// #define HAL_LPTIM_MODULE_ENABLED
-#define HAL_LTDC_MODULE_ENABLED
-// #define HAL_MDMA_MODULE_ENABLED
+#define HAL_HASH_MODULE_ENABLED
+#define HAL_HSEM_MODULE_ENABLED
+#define HAL_I2C_MODULE_ENABLED
+#define HAL_IPCC_MODULE_ENABLED
+#define HAL_LPTIM_MODULE_ENABLED
+#define HAL_MDMA_MODULE_ENABLED
 #define HAL_PWR_MODULE_ENABLED
-// #define HAL_QSPI_MODULE_ENABLED
+#define HAL_QSPI_MODULE_ENABLED
 #define HAL_RCC_MODULE_ENABLED
-// #define HAL_RNG_MODULE_ENABLED
-// #define HAL_RTC_MODULE_ENABLED
-// #define HAL_SAI_MODULE_ENABLED
-// #define HAL_SD_MODULE_ENABLED
-// #define HAL_SMARTCARD_MODULE_ENABLED
-// #define HAL_SMBUS_MODULE_ENABLED
-// #define HAL_SPDIFRX_MODULE_ENABLED
-// #define HAL_SPI_MODULE_ENABLED
-// #define HAL_SRAM_MODULE_ENABLED
-// #define HAL_TIM_MODULE_ENABLED
+#define HAL_RNG_MODULE_ENABLED
+#define HAL_RTC_MODULE_ENABLED
+#define HAL_SAI_MODULE_ENABLED
+#define HAL_SD_MODULE_ENABLED
+#define HAL_SMBUS_MODULE_ENABLED
+#define HAL_SPDIFRX_MODULE_ENABLED
+#define HAL_SPI_MODULE_ENABLED
+#define HAL_TIM_MODULE_ENABLED
 #define HAL_UART_MODULE_ENABLED
-// #define HAL_USART_MODULE_ENABLED
-// #define HAL_WWDG_MODULE_ENABLED
+#define HAL_USART_MODULE_ENABLED
+#define HAL_WWDG_MODULE_ENABLED
 
 /* ########################## Register Callbacks selection ############################## */
 /**
@@ -75,25 +72,10 @@
   */
 #define USE_HAL_ADC_REGISTER_CALLBACKS    0u
 #define USE_HAL_CEC_REGISTER_CALLBACKS    0u
-#define USE_HAL_CRYP_REGISTER_CALLBACKS   0u
 #define USE_HAL_DAC_REGISTER_CALLBACKS    0u
-#define USE_HAL_DCMI_REGISTER_CALLBACKS   0u
-#define USE_HAL_DFSDM_REGISTER_CALLBACKS  0u
-#define USE_HAL_DSI_REGISTER_CALLBACKS    0u
-#define USE_HAL_HASH_REGISTER_CALLBACKS   0u
 #define USE_HAL_I2C_REGISTER_CALLBACKS    0u
-#define USE_HAL_LPTIM_REGISTER_CALLBACKS  0u
-#define USE_HAL_LTDC_REGISTER_CALLBACKS   0u
-#define USE_HAL_QSPI_REGISTER_CALLBACKS   0u
 #define USE_HAL_RNG_REGISTER_CALLBACKS    0u
-#define USE_HAL_RTC_REGISTER_CALLBACKS    0u
-#define USE_HAL_SAI_REGISTER_CALLBACKS    0u
-// #define USE_HAL_SD_REGISTER_CALLBACKS     0u
-#define USE_HAL_SMARTCARD_REGISTER_CALLBACKS 0u
-#define USE_HAL_SMBUS_REGISTER_CALLBACKS  0u
 #define USE_HAL_SPI_REGISTER_CALLBACKS    0u
-#define USE_HAL_SRAM_REGISTER_CALLBACKS   0U
-#define USE_HAL_TIM_REGISTER_CALLBACKS    0u
 #define USE_HAL_UART_REGISTER_CALLBACKS   0u
 #define USE_HAL_USART_REGISTER_CALLBACKS  0u
 #define USE_HAL_WWDG_REGISTER_CALLBACKS   0u
@@ -229,10 +211,6 @@
   #include "stm32mp1xx_hal_dma.h"
 #endif /* HAL_DMA_MODULE_ENABLED */
 
-#ifdef HAL_DSI_MODULE_ENABLED
-  #include "stm32mp1xx_hal_dsi.h"
-#endif /* HAL_DSI_MODULE_ENABLED */
-
 #ifdef HAL_MDMA_MODULE_ENABLED
   #include "stm32mp1xx_hal_mdma.h"
 #endif /* HAL_MDMA_MODULE_ENABLED */
@@ -289,10 +267,6 @@
  #include "stm32mp1xx_hal_lptim.h"
 #endif /* HAL_LPTIM_MODULE_ENABLED */
 
-#ifdef HAL_LTDC_MODULE_ENABLED
- #include "stm32mp1xx_hal_ltdc.h"
-#endif /* HAL_LTDC_MODULE_ENABLED */
-
 #ifdef HAL_PWR_MODULE_ENABLED
  #include "stm32mp1xx_hal_pwr.h"
 #endif /* HAL_PWR_MODULE_ENABLED */
@@ -317,10 +291,6 @@
  #include "stm32mp1xx_hal_sd.h"
 #endif /* HAL_SD_MODULE_ENABLED */
 
-#ifdef HAL_SMARTCARD_MODULE_ENABLED
- #include "stm32mp1xx_hal_smartcard.h"
-#endif /* HAL_SMARTCARD_MODULE_ENABLED */
-
 #ifdef HAL_SMBUS_MODULE_ENABLED
  #include "stm32mp1xx_hal_smbus.h"
 #endif /* HAL_SMBUS_MODULE_ENABLED */
@@ -332,10 +302,6 @@
 #ifdef HAL_SPI_MODULE_ENABLED
  #include "stm32mp1xx_hal_spi.h"
 #endif /* HAL_SPI_MODULE_ENABLED */
-
-#ifdef HAL_SRAM_MODULE_ENABLED
-  #include "stm32mp1xx_hal_sram.h"
-#endif /* HAL_SRAM_MODULE_ENABLED */
 
 #ifdef HAL_TIM_MODULE_ENABLED
  #include "stm32mp1xx_hal_tim.h"
@@ -375,3 +341,7 @@
 #endif
 
 #endif /* STM32MP1xx_HAL_CONF_H */
+
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+

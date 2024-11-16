@@ -28,14 +28,74 @@
                 // Refer to this thread: https://community.st.com/s/question/0D50X0000AhOC9DSQW/stm32mp157cdk2-uboot-spl-debug-timeout    
                 "set arm abi AAPCS",
                 "set output-radix 16", // Display in hex format
-                "monitor arm semihosting enable",
             ],
             "postLaunchCommands": [
                 "monitor cortex_a smp on",
-                "monitor cortex_a smp_gdb",
+                "monitor cortex_a smp_gdb 0",
                 "load"                                   
             ],
             "preLaunchTask": "Build for Debug"
         },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/STM32MP157_A7_LVGL.elf",
+            "name": "Debug with OpenOCD (Dual Core)",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/jlink.cfg",
+                "target/stm32mp15x.cfg"
+            ],
+            "serverArgs": [],
+            "searchDir": ["/usr/share/openocd/scripts"],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
+            "serverpath": "openocd",
+            "svdFile": "STM32MP15xxx.svd",
+            "numberOfProcessors": 2,  // 设置为2核调试
+            "targetProcessor": 0,     // 选择核心0
+            "preLaunchCommands": [
+                "set arm abi AAPCS",
+                "set output-radix 16", // Display in hex format
+                "monitor cortex_a smp on" // 启用SMP模式
+            ],
+            "postLaunchCommands": [
+                "monitor cortex_a smp_gdb 0", // 启动核心0
+                "monitor cortex_a smp_gdb 1",  // 启动核心1
+                "load",                        // 加载elf文件到两个核心
+            ],
+            "preLaunchTask": "Build for Debug"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/STM32MP157_A7_LVGL.elf",
+            "name": "Debug with OpenOCD (Single Core for Debug)",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/jlink.cfg",
+                "target/stm32mp15x.cfg"
+            ],
+            "serverArgs": [],
+            "searchDir": ["/usr/share/openocd/scripts"],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
+            "serverpath": "openocd",
+            "svdFile": "STM32MP15xxx.svd",
+            "numberOfProcessors": 1,  // 只调试一个核心
+            "targetProcessor": 0,     // 选择核心0
+            "preLaunchCommands": [
+                "set arm abi AAPCS",
+                "set output-radix 16", // Display in hex format
+                "monitor cortex_a smp off",
+            ],
+            "postLaunchCommands": [
+                "monitor cortex_a smp_gdb 0",   // 启动核心0
+                "load",                        // 只加载核心0
+            ],
+            "preLaunchTask": "Build for Debug"
+        }
     ]
 }

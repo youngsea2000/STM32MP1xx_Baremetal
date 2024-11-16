@@ -189,12 +189,12 @@ typedef struct
 /**
   * @brief User2 push-button
   */
-#define KEY1_BUTTON_PIN                       GPIO_PIN_3
-#define KEY1_BUTTON_GPIO_PORT                 GPIOF
-#define KEY1_BUTTON_GPIO_CLK_ENABLE()         __HAL_RCC_GPIOF_CLK_ENABLE()
-#define KEY1_BUTTON_GPIO_CLK_DISABLE()        __HAL_RCC_GPIOF_CLK_DISABLE()
-#define KEY1_BUTTON_EXTI_LINE                 EXTI_LINE_3
-#define KEY1_BUTTON_EXTI_IRQn                 EXTI3_IRQn
+#define KEY1_BUTTON_PIN                       GPIO_PIN_7
+#define KEY1_BUTTON_GPIO_PORT                 GPIOH
+#define KEY1_BUTTON_GPIO_CLK_ENABLE()         __HAL_RCC_GPIOH_CLK_ENABLE()
+#define KEY1_BUTTON_GPIO_CLK_DISABLE()        __HAL_RCC_GPIOH_CLK_DISABLE()
+#define KEY1_BUTTON_EXTI_LINE                 EXTI_LINE_7
+#define KEY1_BUTTON_EXTI_IRQn                 EXTI7_IRQn
 
 
 /**
@@ -267,7 +267,7 @@ void            BSP_PB_Callback(Button_TypeDef Button);
 void            BSP_PB_IRQHandler(Button_TypeDef Button);
 void            BSP_PB_WAKEUP_EXTI_LINE_0_IRQHandler(void);
 void            BSP_PB_KEY0_EXTI_LINE_3_IRQHandler(void);
-void            BSP_PB_KEY1_EXTI_LINE_3_IRQHandler(void);
+void            BSP_PB_KEY1_EXTI_LINE_7_IRQHandler(void);
 /**
   * @}
   */

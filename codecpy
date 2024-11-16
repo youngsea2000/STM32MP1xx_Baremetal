@@ -26,8 +26,6 @@ if [ "$#" -eq 1 ]; then
     echo ""
     case "$(uname -s)" in
         Linux)
-            echo "sudo mkfs.fat -F 32 ${1}4"
-            sudo mkfs.fat -F 32 ${1}4
             sleep 3
             sudo umount $1
             ;;

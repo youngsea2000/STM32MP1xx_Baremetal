@@ -32,8 +32,8 @@
 /* Entry Point */
 ENTRY(Reset_Handler)
 
-_Min_Heap_Size = 0x200;     /* required amount of heap  */
-_Min_Stack_Size = 0x400;    /* required amount of stack */
+_Min_Heap_Size = 0x10000000;     /* required amount of heap  */
+_Min_Stack_Size = 0x1000000;    /* required amount of stack */
 
 TTB_L1_SIZE = 16384;        /* MMU Level 1 Translation table size */
 TTB_L2_SIZE = 1024;         /* MMU Level 2 Translation table size */

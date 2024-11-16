@@ -82,12 +82,8 @@ int main_cpu1(void)
 
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-  if(wait_lock(&log_lock))
-  {
-    set_lock(&log_lock);
-    printf("\r\nHello from Core1!\r\n");
-    clr_lock(&log_lock);
-  }
+  HAL_Delay(500);
+  printf("\r\nHello from Core1!\r\n");
 
   /* USER CODE END 2 */
 
@@ -95,7 +91,7 @@ int main_cpu1(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    HAL_Delay(1000);
+    HAL_Delay(300);
     BSP_LED_Toggle(LED_GREEN);
     /* USER CODE END WHILE */
 

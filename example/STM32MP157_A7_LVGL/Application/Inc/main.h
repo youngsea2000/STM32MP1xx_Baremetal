@@ -32,6 +32,7 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stm32mp1xx_atk.h"
+#include "stm32mp1xx_atk_lcd.h"
 
 /* USER CODE END Includes */
 
@@ -47,7 +48,6 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-extern __IO uint8_t log_lock;
 
 /* USER CODE END EM */
 
@@ -55,9 +55,6 @@ extern __IO uint8_t log_lock;
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-void set_lock(__IO uint8_t *lock);
-void clr_lock(__IO uint8_t *lock);
-uint8_t wait_lock(__IO uint8_t *lock);
 
 /* USER CODE END EFP */
 

@@ -5,29 +5,27 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/Application/Inc",
-                "${workspaceFolder}/Drivers/BSP/STM32MP1xx_ATK",
                 "${workspaceFolder}/Drivers/CMSIS/Core_A/Include",
                 "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32MP1xx/Include",
                 "${workspaceFolder}/Drivers/STM32MP1xx_HAL_Driver_EX/Inc",
-                "${workspaceFolder}/Drivers/STM32MP1xx_HAL_Driver/Inc"
+                "${workspaceFolder}/Drivers/STM32MP1xx_HAL_Driver/Inc",
+                "${workspaceFolder}/Drivers/BSP/Components/ek79001",
+                "${workspaceFolder}/Drivers/BSP/STM32MP1xx_ATK"
             ],
             "defines": [
+                "USE_DDR",
                 "STM32MP157Dxx",
                 "CORE_CA7",
                 "USE_HAL_DRIVER",
-                // "USE_FULL_ASSERT",
                 "USE_SECOND_A7_CORE",
-                // "DDR_TYPE_DDR3_8Gb",
                 "STM32MP1"
             ],
             "compilerPath": "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc",
             "cStandard": "c11",
-            "cppStandard": "c++20",
+            "cppStandard": "c++11",
             "intelliSenseMode": "gcc-arm",
             "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4
 }
-
-

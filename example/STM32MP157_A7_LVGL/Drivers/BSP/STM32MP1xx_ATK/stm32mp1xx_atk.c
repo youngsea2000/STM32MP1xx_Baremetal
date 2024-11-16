@@ -412,25 +412,6 @@ int32_t BSP_PB_DeInit(Button_TypeDef Button)
   GPIO_InitTypeDef gpio_init_structure;
   gpio_init_structure.Pin = BUTTON_PIN[Button];
 
-  /* Disable the BUTTON clock */
-  switch(Button)
-  {
-  case BUTTON_WAKEUP:
-    /* BUTTON_WAKEUP clock disable */
-    WAKEUP_BUTTON_GPIO_CLK_DISABLE();
-    break;
-  case BUTTON_KEY0:
-    /* BUTTON_KEY0 clock disable */
-    KEY0_BUTTON_GPIO_CLK_DISABLE();
-    break;
-  case BUTTON_KEY1:
-    /* BUTTON_KEY1 clock disable */
-    KEY1_BUTTON_GPIO_CLK_DISABLE();
-    break;
-  default:
-    break;
-  }
-
 #if defined (CORE_CA7)
   IRQ_Disable((IRQn_ID_t)BUTTON_IRQn[Button]);
 #else
@@ -482,7 +463,7 @@ void BSP_PB_KEY0_EXTI_LINE_3_IRQHandler(void)
   * @brief  This function handles EXTI_LINE_3 interrupt request.
   * @retval None
   */
-void BSP_PB_KEY1_EXTI_LINE_3_IRQHandler(void)
+void BSP_PB_KEY1_EXTI_LINE_7_IRQHandler(void)
 {
   HAL_EXTI_IRQHandler(&hExtiButtonHandle[BUTTON_KEY1]);
 }
